@@ -7,6 +7,34 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+#search {
+	margin: 10px;
+	text-align: center;
+}
+
+#gctag {
+	padding-left: 0;
+	list-style: none;
+	margin-bottom: 10px;
+}
+#gctag li{
+	display: inline;
+	padding: 10px;
+	background: black;
+	line-height: 50px;
+	border-radius: 15px;
+}
+
+.pic img {
+	width: 100%;
+    opacity: .5;
+}
+
+.poptrox-popup {
+	width: 80% !important;
+	height: 69.% !important;
+}
+
 @-moz-keyframes spinner {
 	0% {
 		-moz-transform: rotate(0deg);
@@ -1600,10 +1628,13 @@ input, select, textarea {
 		-webkit-flex-wrap: wrap;
 		-ms-flex-wrap: wrap;
 		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
 		-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 	}
 
 		#main .thumb {
+			margin: 10px;
 			-moz-transition: opacity 1.25s ease-in-out;
 			-webkit-transition: opacity 1.25s ease-in-out;
 			-ms-transition: opacity 1.25s ease-in-out;
@@ -1633,9 +1664,9 @@ input, select, textarea {
 
 			#main .thumb > .image {
 				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-				background-position: center;
+				/* background-position: center; */
 				background-repeat: no-repeat;
-				background-size: cover;
+				/* background-size: contain; */
 				border: 0;
 				height: 100%;
 				left: 0;
@@ -1648,6 +1679,7 @@ input, select, textarea {
 				pointer-events: none;
 				bottom: 1.875em;
 				font-size: 0.8em;
+				font-weight: bold;
 				left: 2.1875em;
 				margin: 0;
 				position: absolute;
@@ -1704,9 +1736,12 @@ input, select, textarea {
 			-webkit-transition-delay: 2.525s;
 			-ms-transition-delay: 2.525s;
 			transition-delay: 2.525s;
-			height: calc(40vh - 2em);
-			min-height: 20em;
-			width: 25%;
+			/* height: calc(40vh - 2em); */
+			/* min-height: 20em; */
+			/* width: 25%; */
+			height: 750px;
+			width: 500px;
+
 		}
 
 			#main .thumb:nth-child(1) {
