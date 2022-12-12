@@ -1,131 +1,84 @@
-<!DOCTYPE HTML>
+{% extends 'layout.html' %}
 
-<html>
-	{% load static %}
-	{% load humanize %}
+{% block content %}
+<!-- Wrapper -->
+{% load static %}
+{% load humanize %}
 
-	<head>
-		<title>Placeholder</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="{% static 'app/css/main.css' %}" />
-		<noscript><link rel="stylesheet" href="{% static 'app/css/noscript.css' %}" /></noscript>
-	</head>
-	<body class="is-preload">
+<div id="wrapper">
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+	<!-- Header -->
+	<header id="header">
+		<h1><a href="index.html"><strong>Movie Predictions</strong> by Carlos Puerta & Kayvan Jalali</a></h1>
+		<nav>
+			<ul>
+				<li><a href="#footer" class="icon solid fa-info-circle">About</a></li>
+			</ul>
+		</nav>
+	</header>
 
-				<!-- Header -->
-					<header id="header">
-						<h1><a href="index.html"><strong>Placeholder</strong> by HTML5 UP</a></h1>
-						<nav>
-							<ul>
-								<li><a href="#footer" class="icon solid fa-info-circle">About</a></li>
-							</ul>
-						</nav>
-					</header>
-					
-					<div id="search">
-						<h1 style="margin: 0">
-							Search Bar Placeholder
-						</h1>
-					</div>
-				<!-- Main -->
-					<div id="main">
-						{% for movie in movies %}
-							<article class="thumb">
-								<a href="{{movie.backdrop}}" class="image">
-									<img src="{{movie.poster}}" alt="" />
-								</a>
-								<h2>{{movie.title}} - {{movie.release_date|date:'Y'}}</h2>
-								<ul>
-									<li>ID: {{movie.id}}</li>
-									<li>Status: {{movie.status}}</li>
-									<li>Date: {{movie.release_date|date:'M d, Y'}}</li>
-									<li>Budget: ${{movie.budget|intcomma}}</li>
-									<li>Revenue: ${{movie.revenue|intcomma}}</li>
-									<li>Language: {{movie.language}}</li>
-									<li>Runtime: {{movie.runtime}} mins</li>
-									<li>Popularity: {{movie.popularity}}</li>
-									<li>Average Vote: {{movie.vote_average}}</li>
-									<li>Vote Count: {{movie.vote_count}}</li>
-								</ul>
-								<p style="margin:0; padding:0">Genres</p>
-								<ul id="gctag">
-									{% for g in movie.genres %}
-										<li>{{g.id}}</li>
-									{% endfor %}
-								</ul>
-								<p style="margin:0; padding:0">Popular Cast</p>
-								<ul id="gctag">
-									{% for c in movie.lead_cast %}
-										<li>{{c.name}} - {{c.task}}</li>
-									{% endfor %}
-								</ul>
-								<p style="margin:0; padding:0">Popular Crew</p>
-								<ul id="gctag", style="padding-bottom: 20px">
-									{% for c in movie.lead_crew %}
-										<li>{{c.name}} - {{c.task}}</li>
-									{% endfor %}
-								</ul>
-							</article>
-						{% endfor %}
-					</div>
+	<div id="search">
+		<form style="display:flex" method="post">
+			{% csrf_token %}
+			<input type="text" id="search" name="searchmovie">
+			<input type="submit" value="Search" style="margin: 10px">
+		</form>
+	</div>
+	<!-- Main -->
+	<div id="main">
+		{% for movie in movies %}
+		<article class="thumb">
+			<a href="{{movie.backdrop}}" class="image">
+				<img src="{{movie.poster}}" alt="" />
+			</a>
+			<h2>{{movie.title}} - {{movie.release_date|date:'Y'}}</h2>
+			<ul>
+				<li>ID: {{movie.id}}</li>
+				<li>Date: {{movie.release_date|date:'M d, Y'}}</li>
+				<li>Budget: ${{movie.budget|intcomma}}</li>
+				<li style="color: red">Predicted Revenue: ${{movie.predicted_revenue|intcomma}}</li>
+				<li>Revenue: ${{movie.revenue|intcomma}}</li>
+				<li>Language: {{movie.language}}</li>
+				<li>Runtime: {{movie.runtime}} mins</li>
+				<li>Popularity: {{movie.popularity}}</li>
+				<li>Average Vote: {{movie.vote_average}}</li>
+				<li>Vote Count: {{movie.vote_count}}</li>
+			</ul>
+			<p style="margin:0; padding:0">Genres</p>
+			<ul id="gctag">
+				{% for g in movie.genres %}
+				<li>{{g.id}}</li>
+				{% endfor %}
+			</ul>
+			<p style="margin:0; padding:0">Popular Cast</p>
+			<ul id="gctag">
+				{% for c in movie.lead_cast %}
+				<li>{{c.name}} - {{c.task}}</li>
+				{% endfor %}
+			</ul>
+			<p style="margin:0; padding:0">Popular Crew</p>
+			<ul id="gctag" , style="padding-bottom: 20px">
+				{% for c in movie.lead_crew %}
+				<li>{{c.name}} - {{c.task}}</li>
+				{% endfor %}
+			</ul>
+		</article>
+		{% endfor %}
+	</div>
 
-				<!-- Footer -->
-					<footer id="footer" class="panel">
-						<div class="inner split">
-							<div>
-								<section>
-									<h2>Magna feugiat sed adipiscing</h2>
-									<p>Nulla consequat, ex ut suscipit rutrum, mi dolor tincidunt erat, et scelerisque turpis ipsum eget quis orci mattis aliquet. Maecenas fringilla et ante at lorem et ipsum. Dolor nulla eu bibendum sapien. Donec non pharetra dui. Nulla consequat, ex ut suscipit rutrum, mi dolor tincidunt erat, et scelerisque turpis ipsum.</p>
-								</section>
-								<section>
-									<h2>Follow me on ...</h2>
-									<ul class="icons">
-										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-										<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-										<li><a href="#" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
-									</ul>
-								</section>
-							</div>
-							<div>
-								<section>
-									<h2>Get in touch</h2>
-									<form method="post" action="#">
-										<div class="fields">
-											<div class="field half">
-												<input type="text" name="name" id="name" placeholder="Name" />
-											</div>
-											<div class="field half">
-												<input type="text" name="email" id="email" placeholder="Email" />
-											</div>
-											<div class="field">
-												<textarea name="message" id="message" rows="4" placeholder="Message"></textarea>
-											</div>
-										</div>
-										<ul class="actions">
-											<li><input type="submit" value="Send" class="primary" /></li>
-											<li><input type="reset" value="Reset" /></li>
-										</ul>
-									</form>
-								</section>
-							</div>
-						</div>
-					</footer>
-
+	<!-- Footer -->
+	<footer id="footer" class="panel">
+		<div class="inner split">
+			<div>
+				<section>
+					<h2>About this Movie Predictor</h2>
+					<p>Movie Predictor is a machine learning algorithm that attemps to guess the performance of any
+						movie. Made with love as a class project for DATA 602 using an HTML5 UP template.</p>
+				</section>
 			</div>
+		</div>
+	</footer>
 
-		<!-- Scripts -->
-        <script src="{% static 'app/js/jquery.min.js' %}"></script>
-		<script src="{% static 'app/js/jquery.poptrox.min.js' %}"></script>
-		<script src="{% static 'app/js/browser.min.js' %}"></script>
-        <script src="{% static 'app/js/breakpoints.min.js' %}"></script>
-        <script src="{% static 'app/js/util.js' %}"></script>
-        <script src="{% static 'app/js/main.js' %}"></script>
-	</body>
-</html>
+</div>
+
+{% endblock %}

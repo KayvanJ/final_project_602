@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+
+<html>
+{% load static %}
+{% load humanize %}
+
+<head>
+    <title>Movie Predictions</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{% static 'app/css/main.css' %}" />
+    <noscript>
+        <link rel="stylesheet" href="{% static 'app/css/noscript.css' %}" />
+    </noscript>
+</head>
+
+<body class="is-preload">
+
+    {% block content %}
+    {% endblock %}
+    <!-- Scripts -->
+    <script src="{% static 'app/js/jquery.min.js' %}"></script>
+    <script src="{% static 'app/js/jquery.poptrox.min.js' %}"></script>
+    <script src="{% static 'app/js/browser.min.js' %}"></script>
+    <script src="{% static 'app/js/breakpoints.min.js' %}"></script>
+    <script src="{% static 'app/js/util.js' %}"></script>
+    <script src="{% static 'app/js/main.js' %}"></script>
+</body>
+
+</html>
