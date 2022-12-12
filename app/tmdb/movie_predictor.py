@@ -6,12 +6,8 @@ import os
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
-import cpi
 
 import json
-
-cpi.update()
-
 
 class MovieModel:
 

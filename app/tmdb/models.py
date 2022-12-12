@@ -11,6 +11,7 @@ movie_model = MovieModel()
 @dataclass
 class Genre:
     id: int
+    name: str
 
 
 @dataclass
@@ -58,9 +59,9 @@ class TMDBMovie:
         self.backdrop = f"https://image.tmdb.org/t/p/w500{self.backdrop}"
         self.poster = f"https://image.tmdb.org/t/p/w500{self.poster}"
         self.lead_cast = sorted(
-            self.cast, key=lambda x: x.popularity, reverse=True)[:6]
+            self.cast, key=lambda x: x.popularity, reverse=True)[:3]
         self.lead_crew = sorted(
-            self.crew, key=lambda x: x.popularity, reverse=True)[:6]
+            self.crew, key=lambda x: x.popularity, reverse=True)[:3]
 
         avg_budget = movie_model.dataframe['budget'].mean()
         std_budget = movie_model.dataframe['budget'].std()

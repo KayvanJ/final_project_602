@@ -5,14 +5,11 @@ import os
 
 api_key = os.environ.get('TMDB')
 
-# https://api.themoviedb.org/3/search/movie?api_key={api_key}&query=Jack+Reacher
-
 
 def search_db(query: str):
     movies = []
     response = requests.get(
         f"https://api.themoviedb.org/3/search/movie?api_key={api_key}&query={query}"
-        # f"https://api.themoviedb.org/3/movie/{id}?api_key={api_key}&append_to_response=credits"
     )
     if response.status_code == 404:
         return movies
@@ -50,7 +47,7 @@ def get_movie(id: int) -> TMDBMovie | None:
     crews: list[Worker] = []
 
     for genre in json.get("genres"):
-        genres.append(Genre(genre["id"]))
+        genres.append(Genre(genre["id"], genre["name"]))
 
     for prod in json.get("production_companies"):
         prods.append(ProdCompany(prod["id"]))

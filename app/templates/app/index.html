@@ -33,21 +33,17 @@
 			</a>
 			<h2>{{movie.title}} - {{movie.release_date|date:'Y'}}</h2>
 			<ul>
-				<li>ID: {{movie.id}}</li>
 				<li>Date: {{movie.release_date|date:'M d, Y'}}</li>
 				<li>Budget: ${{movie.budget|intcomma}}</li>
-				<li style="color: red">Predicted Revenue: ${{movie.predicted_revenue|intcomma}}</li>
-				<li>Revenue: ${{movie.revenue|intcomma}}</li>
 				<li>Language: {{movie.language}}</li>
 				<li>Runtime: {{movie.runtime}} mins</li>
-				<li>Popularity: {{movie.popularity}}</li>
-				<li>Average Vote: {{movie.vote_average}}</li>
-				<li>Vote Count: {{movie.vote_count}}</li>
+				<li>Actual Revenue: ${{movie.revenue|intcomma}}</li>
+				<li style="color: red">Predicted Revenue: ${{movie.predicted_revenue|intcomma}}</li>
 			</ul>
 			<p style="margin:0; padding:0">Genres</p>
 			<ul id="gctag">
 				{% for g in movie.genres %}
-				<li>{{g.id}}</li>
+				<li>{{g.name}}</li>
 				{% endfor %}
 			</ul>
 			<p style="margin:0; padding:0">Popular Cast</p>
