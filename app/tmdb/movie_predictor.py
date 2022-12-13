@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import os
+import pathlib
 
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_squared_error
@@ -34,13 +34,13 @@ class MovieModel:
         if not self.ready:
             print("Loading data")
 
-            directory = './tmdb/final_db0.json'
+            directory = './app/tmdb/final_db0.json'
             print(directory)
             f = open(directory)
             db = json.load(f)
             f.close()
             for num in range(1, 6):
-                f = open(f'./tmdb/final_db{num}.json')
+                f = open(f'./app/tmdb/final_db{num}.json')
                 data = json.load(f)
                 db = db + data
                 f.close()
