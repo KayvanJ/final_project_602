@@ -39,34 +39,32 @@ class MovieModel:
         print("Movies to train on", len(db))
         db = pd.DataFrame.from_dict(db)
 
-        if not self.ready:
-            print("Training")
+        print("Training")
 
-            X_train, X_test, y_train, y_test = train_test_split(
-                np.array([db['centered_budget'], db['vote_count'],
-                         db['popularity'], db['anomaly']]).T,
-                np.array(db['centered_revenue']).T,
-                test_size=0.2, random_state=101)
+        X_train, X_test, y_train, y_test = train_test_split(
+            np.array([db['centered_budget'], db['vote_count'],
+                      db['popularity'], db['anomaly']]).T,
+            np.array(db['centered_revenue']).T,
+            test_size=0.2, random_state=101)
 
-            model = GradientBoostingRegressor(
-                n_estimators=1000,
-                learning_rate=0.1,
-                max_depth=1,
-                random_state=0,
-                loss='squared_error'
-            )
+        model = GradientBoostingRegressor(
+            n_estimators=1000,
+            learning_rate=0.1,
+            max_depth=1,
+            random_state=0,
+            loss='squared_error'
+        )
 
-            model.fit(X_train, y_train)
-            y_pred = model.predict(X_test)
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
 
-            self.revenue_std = db['revenue'].std()
-            self.revenue_avg = db['revenue'].mean()
-            self.model = model
-            self.score = model.score(X_test, y_test)
-            self.mse = mean_squared_error(y_true=y_test, y_pred=y_pred)
-            self.ready = True
+        self.revenue_std = db['revenue'].std()
+        self.revenue_avg = db['revenue'].mean()
+        self.model = model
+        self.score = model.score(X_test, y_test)
+        self.mse = mean_squared_error(y_true=y_test, y_pred=y_pred)
 
-            del db
+        del db
 
     def predict(self, features):
         pred = self.model.predict(features)[0]
