@@ -9,6 +9,7 @@ from sklearn.model_selection import train_test_split
 
 import json
 
+
 class MovieModel:
 
     def __init__(self):
@@ -27,43 +28,33 @@ class MovieModel:
         self.clean_data()
         self.train_model()
 
-        print(f"Ready with score {self.score} and error of {self.mse}")
+        print(
+            f"\n##############\n\nReady with score {self.score} and error of {self.mse}\n\n##############\n")
 
     def open_db(self):
-        print(self.ready)
         if not self.ready:
-            print("loading")
-            f = open(f'{os.getcwd()}/app/tmdb/final_db.json')
+            print("Loading data")
+
+            f = open(f'{os.getcwd()}/app/tmdb/final_db0.json')
             db = json.load(f)
             f.close()
+            for num in range(1, 6):
+                print(num)
+                f = open(f'{os.getcwd()}/app/tmdb/final_db{num}.json')
+                data = json.load(f)
+                db = db + data
+                f.close()
+
+            # f = open(f'{os.getcwd()}/app/tmdb/final_db.json')
+            # db = json.load(f)
+            # f.close()
 
         self.database = db
 
     def clean_data(self):
         if not self.ready:
-            print("cleaning")
+            print("Cleaning")
             df = pd.DataFrame.from_dict(self.database)
-
-            df['release_date'] = df['release_date'].apply(
-                lambda x: tryconvert(x))
-            df['count_g'] = df['genres'].apply(lambda x: len(x))
-            df['cast%M'] = df['credits'].apply(lambda x: sum(
-                i['gender'] == 2 for i in x['cast'])/len(x['cast']) if len(x['cast']) != 0 else np.nan)
-            df['crew%M'] = df['credits'].apply(lambda x: sum(
-                i['gender'] == 2 for i in x['crew'])/len(x['crew']) if len(x['crew']) != 0 else np.nan)
-            df['#cast'] = df['credits'].apply(lambda x: len(x['cast']))
-            df['#crew'] = df['credits'].apply(lambda x: len(x['cast']))
-            df['days_out'] = df['release_date'].apply(
-                lambda x: (datetime.now() - x).days)
-
-            for i, row in df.iterrows():
-                temp_revenue = row['revenue']
-                df.loc[i, 'revenue/day'] = temp_revenue / row['days_out']
-
-            df['genre1'] = df['genres'].apply(
-                lambda x: x[0]['name'] if x else "None")
-            df['genre1id'] = df['genres'].apply(
-                lambda x: x[0]['id'] if x else 0)
 
             df = df[df["revenue"] != 0]
             df = df[df["status"] == "Released"]
@@ -81,12 +72,11 @@ class MovieModel:
                 lambda x: 1 if x > (72287747*2) else 0)
 
             df.dropna(subset=['revenue/day'], inplace=True)
-
             self.dataframe = df
 
     def train_model(self):
         if not self.ready:
-            print("training")
+            print("Training")
             df = self.dataframe
 
             X = np.array([df['centered_budget'], df['vote_count'],
@@ -121,10 +111,3 @@ class MovieModel:
         ) + self.dataframe['revenue'].mean()
 
         return round(final_number)
-
-
-def tryconvert(date):
-    try:
-        return datetime.strptime(date, '%Y-%m-%d') if date != '' else np.nan
-    except:
-        return np.nan

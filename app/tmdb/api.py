@@ -33,8 +33,6 @@ def get_movie(id: int) -> TMDBMovie | None:
     json = response.json()
     if json.get("adult"):
         return
-    if json.get("revenue") == 0:
-        return
 
     poster = json.get("poster_path")
     backdrop = json.get("backdrop_path")

@@ -26,6 +26,80 @@
 	</div>
 	<!-- Main -->
 	<div id="main">
+		{% for movie in upcoming_movies %}
+		<article class="thumb">
+			<a href="{{movie.backdrop}}" class="image">
+				<img src="{{movie.poster}}" alt="" />
+			</a>
+			{% if movie.status == "Released" %}
+			<h2>{{movie.title}} - <span style="color: red">Recently Released</span></h2>
+			{% else %}
+			<h2>{{movie.title}} - <span style="color: red">{{movie.status}}</span></h2>
+			{% endif %}
+			<ul>
+				<li>Date: {{movie.release_date|date:'M d, Y'}}</li>
+				<li>Budget: ${{movie.budget|intcomma}}</li>
+				<li>Language: {{movie.language}}</li>
+				<li>Runtime: {{movie.runtime}} mins</li>
+				<li>Actual Revenue: ${{movie.revenue|intcomma}}</li>
+				<li><b>Predicted Revenue: ${{movie.predicted_revenue|intcomma}}</b></li>
+			</ul>
+			<p style="margin:0; padding:0">Genres</p>
+			<ul id="gctag">
+				{% for g in movie.genres %}
+				<li>{{g.name}}</li>
+				{% endfor %}
+			</ul>
+			<p style="margin:0; padding:0">Popular Cast</p>
+			<ul id="gctag">
+				{% for c in movie.lead_cast %}
+				<li>{{c.name}} - {{c.task}}</li>
+				{% endfor %}
+			</ul>
+			<p style="margin:0; padding:0">Popular Crew</p>
+			<ul id="gctag" , style="padding-bottom: 20px">
+				{% for c in movie.lead_crew %}
+				<li>{{c.name}} - {{c.task}}</li>
+				{% endfor %}
+			</ul>
+		</article>
+		{% endfor %}
+
+		{% for movie in best_movies %}
+		<article class="thumb">
+			<a href="{{movie.backdrop}}" class="image">
+				<img src="{{movie.poster}}" alt="" />
+			</a>
+			<h2>{{movie.title}} - {{movie.release_date|date:'Y'}}</h2>
+			<ul>
+				<li>Date: {{movie.release_date|date:'M d, Y'}}</li>
+				<li>Budget: ${{movie.budget|intcomma}}</li>
+				<li>Language: {{movie.language}}</li>
+				<li>Runtime: {{movie.runtime}} mins</li>
+				<li>Actual Revenue: ${{movie.revenue|intcomma}}</li>
+				<li><b>Predicted Revenue: ${{movie.predicted_revenue|intcomma}} | {{movie.predicted_rating}}</b></li>
+			</ul>
+			<p style="margin:0; padding:0">Genres</p>
+			<ul id="gctag">
+				{% for g in movie.genres %}
+				<li>{{g.name}}</li>
+				{% endfor %}
+			</ul>
+			<p style="margin:0; padding:0">Popular Cast</p>
+			<ul id="gctag">
+				{% for c in movie.lead_cast %}
+				<li>{{c.name}} - {{c.task}}</li>
+				{% endfor %}
+			</ul>
+			<p style="margin:0; padding:0">Popular Crew</p>
+			<ul id="gctag" , style="padding-bottom: 20px">
+				{% for c in movie.lead_crew %}
+				<li>{{c.name}} - {{c.task}}</li>
+				{% endfor %}
+			</ul>
+		</article>
+		{% endfor %}
+
 		{% for movie in movies %}
 		<article class="thumb">
 			<a href="{{movie.backdrop}}" class="image">
@@ -38,7 +112,7 @@
 				<li>Language: {{movie.language}}</li>
 				<li>Runtime: {{movie.runtime}} mins</li>
 				<li>Actual Revenue: ${{movie.revenue|intcomma}}</li>
-				<li style="color: red">Predicted Revenue: ${{movie.predicted_revenue|intcomma}}</li>
+				<li><b>Predicted Revenue: ${{movie.predicted_revenue|intcomma}} | {{movie.predicted_rating}}</b></li>
 			</ul>
 			<p style="margin:0; padding:0">Genres</p>
 			<ul id="gctag">

@@ -4,7 +4,19 @@ from django.shortcuts import render
 import app.tmdb.api as tmd
 import random
 
-valid_ids = [
+upcoming_ids = [
+    76600,
+    609681,
+    615777,
+]
+
+best_predictions = [
+    299534,
+    19995,
+    324857  # Spider
+]
+
+movie_ids = [
     264419,
     1375,
     9873,
@@ -26,16 +38,29 @@ def home(request):
         movies = tmd.search_db(query)
         print(movies)
     else:
+        upcoming_movies = []
+        for id in upcoming_ids:
+            mov = tmd.get_movie(id)
+            if mov:
+                upcoming_movies.append(mov)
+
+        best_movies = []
+        for id in best_predictions:
+            mov = tmd.get_movie(id)
+            if mov:
+                best_movies.append(mov)
+
         movies = []
-        while len(movies) < 2:
-            mov = tmd.get_movie(random.randint(1, 1000000))
+        while len(movies) < 3:
+            mov = tmd.get_movie(random.choice(movie_ids))
             if mov:
                 movies.append(mov)
-
     return render(
         request,
         'app/index.html',
         {
+            "upcoming_movies": upcoming_movies,
+            "best_movies": best_movies,
             "movies": movies,
         }
     )
