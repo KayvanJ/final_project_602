@@ -46,6 +46,7 @@ class MovieModel:
                       db['popularity'], db['anomaly']]).T,
             np.array(db['centered_revenue']).T,
             test_size=0.2, random_state=101)
+        # test_size=0.2, random_state=2)
 
         model = GradientBoostingRegressor(
             n_estimators=1000,

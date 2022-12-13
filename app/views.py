@@ -11,24 +11,24 @@ upcoming_ids = [
 ]
 
 best_predictions = [
-    299534,
-    19995,
-    324857  # Spider
+    324857,
+    64263,
+    254470,
+    7840,
 ]
 
 movie_ids = [
-    264419,
-    1375,
-    9873,
+    505642,
+    1374,
+    114150,
     426249,
     6071,
     337401,
     15975,
     146223,
     50116,
-    9679,
     17708,
-    64263
+    829799,
 ]
 
 
@@ -51,8 +51,8 @@ def home(request):
             if mov:
                 best_movies.append(mov)
 
-        while len(movies) < 3:
-            mov = tmd.get_movie(random.choice(movie_ids))
+        for id in movie_ids:
+            mov = tmd.get_movie(id)
             if mov:
                 movies.append(mov)
     return render(

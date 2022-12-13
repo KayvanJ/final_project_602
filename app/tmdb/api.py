@@ -1,6 +1,8 @@
 from app.tmdb.models import Genre, Worker, ProdCompany, TMDBMovie
 from datetime import datetime
 import requests
+from datetime import date
+from datetime import timedelta
 import os
 
 api_key = os.environ.get('TMDB')
@@ -74,9 +76,9 @@ def get_movie(id: int) -> TMDBMovie | None:
             )
 
     try:
-        date = datetime.strptime(json.get("release_date"), '%Y-%m-%d')
+        dat = datetime.strptime(json.get("release_date"), '%Y-%m-%d')
     except:
-        date = datetime.now() - 1
+        dat = date.today() - timedelta(days=1)
 
     movie = TMDBMovie(
         id=json.get("id"),
@@ -93,7 +95,7 @@ def get_movie(id: int) -> TMDBMovie | None:
         vote_average=json.get("vote_average"),
         predicted_revenue=0,
 
-        release_date=date,
+        release_date=dat,
 
         genres=genres,
         production_companies=prods,
