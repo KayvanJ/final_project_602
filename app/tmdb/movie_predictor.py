@@ -36,13 +36,15 @@ class MovieModel:
 
             f = open(f'{os.getcwd()}/app/tmdb/final_db0.json')
             db = json.load(f)
+            print("did i load properly?")
+            print(db)
             f.close()
             for num in range(1, 6):
-                print(num)
                 f = open(f'{os.getcwd()}/app/tmdb/final_db{num}.json')
                 data = json.load(f)
                 db = db + data
                 f.close()
+                print(num)
 
         self.database = db
 
