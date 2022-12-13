@@ -36,7 +36,7 @@ class MovieModel:
                 db = db + data
                 f.close()
                 print(num)
-        print("Movies to train on ", len(db))
+        print("Movies to train on", len(db))
         db = pd.DataFrame.from_dict(db)
 
         if not self.ready:
@@ -45,7 +45,7 @@ class MovieModel:
             X_train, X_test, y_train, y_test = train_test_split(
                 np.array([db['centered_budget'], db['vote_count'],
                          db['popularity'], db['anomaly']]).T,
-                np.array(db['centered_revenue']).reshape(-1, 1),
+                np.array(db['centered_revenue']).T,
                 test_size=0.2, random_state=101)
 
             model = GradientBoostingRegressor(
@@ -65,6 +65,8 @@ class MovieModel:
             self.score = model.score(X_test, y_test)
             self.mse = mean_squared_error(y_true=y_test, y_pred=y_pred)
             self.ready = True
+
+            del db
 
     def predict(self, features):
         pred = self.model.predict(features)[0]
