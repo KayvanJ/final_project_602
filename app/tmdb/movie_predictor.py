@@ -34,13 +34,13 @@ class MovieModel:
         if not self.ready:
             print("Loading data")
 
-            directory = f'{os.getcwd()}/tmdb/final_db0.json'
+            directory = './tmdb/final_db0.json'
             print(directory)
             f = open(directory)
             db = json.load(f)
             f.close()
             for num in range(1, 6):
-                f = open(f'{os.getcwd()}/tmdb/final_db{num}.json')
+                f = open(f'./tmdb/final_db{num}.json')
                 data = json.load(f)
                 db = db + data
                 f.close()
