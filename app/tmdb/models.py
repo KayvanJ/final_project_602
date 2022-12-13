@@ -64,8 +64,8 @@ class TMDBMovie:
         self.lead_crew = sorted(
             self.crew, key=lambda x: x.popularity, reverse=True)[:3]
 
-        avg_budget = movie_model.dataframe['budget'].mean()
-        std_budget = movie_model.dataframe['budget'].std()
+        avg_budget = movie_model.revenue_avg
+        std_budget = movie_model.revenue_std
 
         budget = self.budget if self.budget else 0
         money = (budget - avg_budget) / std_budget
@@ -74,6 +74,7 @@ class TMDBMovie:
 
         data = np.array([money, voters, self.popularity,
                         anomaly]).reshape(-1, 1).T
+
         self.predicted_revenue = movie_model.predict(data)
         if self.revenue > 0:
             difference = abs(
