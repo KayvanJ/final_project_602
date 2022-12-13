@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-from datetime import datetime
 import os
 
 from sklearn.ensemble import GradientBoostingRegressor
@@ -44,10 +43,6 @@ class MovieModel:
                 data = json.load(f)
                 db = db + data
                 f.close()
-
-            # f = open(f'{os.getcwd()}/app/tmdb/final_db.json')
-            # db = json.load(f)
-            # f.close()
 
         self.database = db
 
