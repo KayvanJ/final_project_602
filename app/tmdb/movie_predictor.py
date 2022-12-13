@@ -12,7 +12,6 @@ import json
 class MovieModel:
 
     def __init__(self):
-        self.database = []
         self.dataframe = None
         self.model = None
         self.score = 0
@@ -20,8 +19,6 @@ class MovieModel:
         self.pca = None
 
         self.ready = False
-
-        self.database_len = len(self.database)
 
         self.open_db()
         self.clean_data()
@@ -44,40 +41,38 @@ class MovieModel:
                 f.close()
                 print(num)
 
-        self.database = db
+        self.dataframe = pd.DataFrame.from_dict(db)
 
     def clean_data(self):
         if not self.ready:
             print("Cleaning")
-            df = pd.DataFrame.from_dict(self.database)
 
-            df = df[df["revenue"] != 0]
-            df = df[df["status"] == "Released"]
+            self.dataframe = self.dataframe[self.dataframe["revenue"] != 0]
+            self.dataframe = self.dataframe[self.dataframe["status"]
+                                            == "Released"]
 
-            avg_budget = df['budget'].mean()
-            std_budget = df['budget'].std()
-            avg_revenue = df['revenue'].mean()
-            std_revenue = df['revenue'].std()
+            avg_budget = self.dataframe['budget'].mean()
+            std_budget = self.dataframe['budget'].std()
+            avg_revenue = self.dataframe['revenue'].mean()
+            std_revenue = self.dataframe['revenue'].std()
 
-            df['centered_budget'] = df['budget'].apply(
+            self.dataframe['centered_budget'] = self.dataframe['budget'].apply(
                 lambda x: (x-avg_budget)/std_budget)
-            df['centered_revenue'] = df['revenue'].apply(
+            self.dataframe['centered_revenue'] = self.dataframe['revenue'].apply(
                 lambda x: (x-avg_revenue)/std_revenue)
-            df['anomaly'] = df['revenue'].apply(
+            self.dataframe['anomaly'] = self.dataframe['revenue'].apply(
                 lambda x: 1 if x > (72287747*2) else 0)
 
-            df.dropna(subset=['revenue/day'], inplace=True)
-            self.dataframe = df
+            self.dataframe.dropna(subset=['revenue/day'], inplace=True)
 
     def train_model(self):
         if not self.ready:
             print("Training")
-            df = self.dataframe
 
-            X = np.array([df['centered_budget'], df['vote_count'],
-                         df['popularity'], df['anomaly']]).T
+            X = np.array([self.dataframe['centered_budget'], self.dataframe['vote_count'],
+                         self.dataframe['popularity'], self.dataframe['anomaly']]).T
 
-            y = np.array(df['centered_revenue']).reshape(-1, 1)
+            y = np.array(self.dataframe['centered_revenue']).reshape(-1, 1)
 
             X_train, X_test, y_train, y_test = train_test_split(
                 X, y, test_size=0.2, random_state=101)
