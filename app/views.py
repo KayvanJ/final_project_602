@@ -33,24 +33,24 @@ movie_ids = [
 
 
 def home(request):
+    upcoming_movies = []
+    best_movies = []
+    movies = []
+
     if request.method == 'POST':
         query = request.POST['searchmovie'].replace(" ", "+")
         movies = tmd.search_db(query)
-        print(movies)
     else:
-        upcoming_movies = []
         for id in upcoming_ids:
             mov = tmd.get_movie(id)
             if mov:
                 upcoming_movies.append(mov)
 
-        best_movies = []
         for id in best_predictions:
             mov = tmd.get_movie(id)
             if mov:
                 best_movies.append(mov)
 
-        movies = []
         while len(movies) < 3:
             mov = tmd.get_movie(random.choice(movie_ids))
             if mov:
